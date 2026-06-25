@@ -1,4 +1,5 @@
 # key pair
+# create using `ssh-keygen` command 
 resource "aws_key_pair" "my-key-pair" {
   key_name   = "terrakey"
   public_key = file("terrakey.pub")
@@ -39,37 +40,25 @@ resource "aws_default_security_group" "my-default-sg" {
 }
 
 # ec2 instance
-data "aws_ami" "ubuntu" {
-  most_recent = true
-
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-
-  owners = ["099720109477"] # Canonical
-}
-
 resource "aws_instance" "my-ubuntu-instance" {
   tags = {
     Name = "terraec2"
   }
   
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t2.micro"    # Free tier eligible instance type
+  ami           = data.aws_ami.ubuntu.id   # 
+  instance_type = var.ec2-instance_type    # variable referenced
   key_name      = aws_key_pair.my-key-pair.key_name   # interpolation
   vpc_security_group_ids = [aws_default_security_group.my-default-sg.id]   # interpolation
   
+  user_data = file("install-nginx.sh")
+
   root_block_device {
-    volume_size = 10  # in GB
+    volume_size = var.ec2-root-storage-size  # variable referenced
     volume_type = "gp3" # gp3, gp2, io1, io2, st1, sc1, or standard
   }
 }
+
+
 
  
   
