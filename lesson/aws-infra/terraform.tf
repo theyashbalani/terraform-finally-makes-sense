@@ -13,6 +13,6 @@ terraform {
     key            = "terraform.tfstate"
     region         = "ap-south-1"
     use_lockfile   = true
-    dynamodb_table = "fking-state-lock"
+    #dynamodb_table = "fking-state-lock"
   }
 }

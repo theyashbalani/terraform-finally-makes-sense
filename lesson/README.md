@@ -131,3 +131,14 @@ block parameter identifier {
 - `terraform workspace show` : It is used to show the current workspace.
 - `terraform workspace list` : It is used to list all the workspaces.
 - `terraform workspace delete <workspace-name>` : It is used to delete a workspace.
+
+## Terraform Module
+
+- A module is a reusable block of code which is used to create, update, or destroy infrastructure.
+- A module can be:
+  - local (in the same directory)
+  - remote (in a different directory)
+  - from a registry (like terraform registry)
+- A module is just a collection of terraform files. (files are ended with `.tf`)
+- Prebuilt Modules (from a Terraform Registry) are templates of code that are already written and can be used directly in your configuration. Example: `terraform-aws-modules/vpc/aws` or `hashicorp/vpc/aws`
+- A module is called by using `module` block.
